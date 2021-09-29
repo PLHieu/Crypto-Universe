@@ -11,3 +11,4 @@ var options = {
 const api = axios.create(options)
 
 export const GetGlobalStat = () => api.get("/stats").then((res) => res.data)
+export const GetCurrencies = () => api.get("/coins").then((res) => res.data)

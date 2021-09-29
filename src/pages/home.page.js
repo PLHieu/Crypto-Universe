@@ -1,10 +1,11 @@
 import React from "react"
-import { GlobalStat } from "../components"
+import { GlobalStat, TopCrypto } from "../components"
 
 const Home = () => {
   return (
     <>
       <GlobalStat></GlobalStat>
+      <TopCrypto></TopCrypto>
     </>
   )
 }
