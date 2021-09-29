@@ -1,7 +1,14 @@
+import { CssBaseline } from "@mui/material"
 import React from "react"
+import { SideMenu } from "./components"
 
 const App = () => {
-  return <div>Hello World</div>
+  return (
+    <>
+      <CssBaseline></CssBaseline>
+      <SideMenu></SideMenu>
+    </>
+  )
 }
 
 export default App
