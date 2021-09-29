@@ -1,4 +1,4 @@
-import { CssBaseline } from "@mui/material"
+import { CssBaseline, Grid } from "@mui/material"
 import React from "react"
 import { Route, Switch } from "react-router-dom"
 import { SideMenu } from "./components"
@@ -12,26 +12,27 @@ const App = () => {
   return (
     <>
       <CssBaseline></CssBaseline>
-      <div className="app">
-        <div className="navbar">
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
           <SideMenu></SideMenu>
-        </div>
-        <div className="main"></div>
-        <Switch>
-          <Route exact path="/">
-            <Home></Home>
-          </Route>
-          <Route exact path="/exchanges">
-            <Exchange></Exchange>
-          </Route>
-          <Route exact path="/cryptocurrencies">
-            <Cryptocurrencies></Cryptocurrencies>
-          </Route>
-          <Route exact path="/news">
-            <New></New>
-          </Route>
-        </Switch>
-      </div>
+        </Grid>
+        <Grid item xs={9}>
+          <Switch>
+            <Route exact path="/">
+              <Home></Home>
+            </Route>
+            <Route exact path="/exchanges">
+              <Exchange></Exchange>
+            </Route>
+            <Route exact path="/cryptocurrencies">
+              <Cryptocurrencies></Cryptocurrencies>
+            </Route>
+            <Route exact path="/news">
+              <New></New>
+            </Route>
+          </Switch>
+        </Grid>
+      </Grid>
     </>
   )
 }
