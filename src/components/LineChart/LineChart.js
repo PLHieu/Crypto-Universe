@@ -12,8 +12,12 @@ import { GetCoinHistory } from "../../services/cryptoApi"
 
 const LineChart = ({ coinId, color }) => {
   const [period, setPeriod] = useState("7d")
-  const { data, isLoading, isError } = useQuery([coinId, period], () =>
-    GetCoinHistory(coinId, period)
+  const { data, isLoading, isError } = useQuery(
+    [coinId, period],
+    () => GetCoinHistory(coinId, period),
+    {
+      refetchInterval: false,
+    }
   )
   const coinPrices = []
   const coinTimestamp = []
