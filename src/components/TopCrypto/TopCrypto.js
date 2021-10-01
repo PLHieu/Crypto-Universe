@@ -28,7 +28,7 @@ const TopCrypto = () => {
           <CircularProgress />
         ) : (
           cryptos?.map((item, i) => (
-            <Grid item lg={3} md={4} xs={6}>
+            <Grid key={i} item lg={3} md={4} xs={6}>
               <Card sx={{ boxShadow: `0 8px 40px -12px ${item.color}` }}>
                 <CardHeader
                   avatar={<Avatar src={item.iconUrl} />}
