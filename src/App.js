@@ -7,6 +7,7 @@ import Exchange from "./pages/exchange.page"
 import Home from "./pages/home.page"
 import New from "./pages/news.page"
 import "./App.css"
+import Detail from "./pages/detail.page"
 
 const App = () => {
   return (
@@ -26,6 +27,9 @@ const App = () => {
             </Route>
             <Route exact path="/cryptocurrencies">
               <Cryptocurrencies></Cryptocurrencies>
+            </Route>
+            <Route exact path="/cryptocurrencies/:coinId">
+              <Detail></Detail>
             </Route>
             <Route exact path="/news">
               <New></New>
