@@ -5,7 +5,7 @@ import { useQuery } from "react-query"
 import { GetCurrencies } from "../services/cryptoApi"
 
 const New = () => {
-  const [keyword, setKeyword] = useState("")
+  const [keyword, setKeyword] = useState("crypto")
   const { data, isLoading: currenciesLoading } = useQuery(
     "Currencies",
     GetCurrencies
