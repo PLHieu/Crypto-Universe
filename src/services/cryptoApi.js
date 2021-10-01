@@ -14,3 +14,5 @@ export const GetGlobalStat = () => api.get("/stats").then((res) => res.data)
 export const GetCurrencies = () => api.get("/coins").then((res) => res.data)
 export const GetDetailCurrency = (id) =>
   api.get(`/coin/${id}`).then((res) => res.data)
+export const GetCoinHistory = (id, period) =>
+  api.get(`/coin/${id}/history/${period}`).then((res) => res.data)

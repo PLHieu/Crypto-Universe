@@ -1,9 +1,5 @@
 import {
   Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Typography,
   Grid,
   TableContainer,
@@ -19,6 +15,7 @@ import React from "react"
 import { GetDetailCurrency } from "../../services/cryptoApi"
 import { useQuery } from "react-query"
 import HTMLReactParser from "html-react-parser"
+import LineChart from "../LineChart/LineChart"
 
 const DetailCurrency = ({ id }) => {
   const { data, isLoading, isError } = useQuery(["detail", id], () =>
@@ -84,29 +81,17 @@ const DetailCurrency = ({ id }) => {
   return (
     <>
       <Box>
-        <Typography variant="h4">Bitcoin (bitcoin-btc) Price</Typography>
+        <Typography variant="h4">
+          {coin.name} - {coin.symbol}'s Price
+        </Typography>
         <Typography variant="subtitle1">
-          Bitcoin live price in US Dollar (USD). View value statistics, market
-          cap and supply.
+          {coin.name} live price in US Dollar (USD). View value statistics,
+          market cap and supply.
         </Typography>
       </Box>
       <Divider />
-      <Box>
-        <FormControl fullWidth>
-          <InputLabel id="select_period_label">Period</InputLabel>
-          <Select
-            labelId="select_period_label"
-            id="select_period"
-            // value={}
-            label="Period"
-            // onChange={handleChange}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+
+      <LineChart coinId={id}></LineChart>
 
       <Grid container>
         <Grid item xs={12} md={6}>
