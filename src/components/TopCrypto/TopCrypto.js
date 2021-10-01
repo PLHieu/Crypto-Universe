@@ -12,17 +12,17 @@ import { useQuery } from "react-query"
 import { GetCurrencies } from "../../services/cryptoApi"
 import millify from "millify"
 
-const TopCrypto = () => {
+const TopCrypto = ({ numTop }) => {
   const { data, isLoading } = useQuery("Currencies", GetCurrencies)
   const [cryptos, setCryptos] = useState([])
 
   useEffect(() => {
-    setCryptos(data?.data?.coins)
+    setCryptos(data?.data?.coins.filter((item, i) => i < numTop))
   }, [data])
 
   return (
     <>
-      <Typography variant="h4">Top 10 Cryptos In The World</Typography>
+      <Typography variant="h4">Top {numTop} Cryptos In The World</Typography>
       <Grid container spacing={2}>
         {isLoading ? (
           <CircularProgress />

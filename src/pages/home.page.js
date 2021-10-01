@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <>
       <GlobalStat></GlobalStat>
-      <TopCrypto></TopCrypto>
+      <TopCrypto numTop={10}></TopCrypto>
       <News keyword="crypto"></News>
     </>
   )
