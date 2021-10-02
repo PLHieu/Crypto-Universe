@@ -1,7 +1,6 @@
 import {
   CircularProgress,
   Collapse,
-  IconButton,
   Table,
   TableBody,
   TableCell,

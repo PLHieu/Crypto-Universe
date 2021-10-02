@@ -19,7 +19,7 @@ const TopCrypto = ({ numTop }) => {
 
   useEffect(() => {
     setCryptos(data?.data?.coins.filter((item, i) => i < numTop))
-  }, [data])
+  }, [data, numTop])
 
   return (
     <>
