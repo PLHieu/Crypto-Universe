@@ -16,3 +16,5 @@ export const GetDetailCurrency = (id) =>
   api.get(`/coin/${id}`).then((res) => res.data)
 export const GetCoinHistory = (id, period) =>
   api.get(`/coin/${id}/history/${period}`).then((res) => res.data)
+export const GetCoinExchange = () =>
+  api.get(`/exchanges`).then((res) => res.data)
