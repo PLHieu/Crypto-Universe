@@ -29,7 +29,7 @@ const New = () => {
   return (
     <>
       <Autocomplete
-        sx={{ width: 300 }}
+        sx={{ width: 300, marginTop: 2 }}
         options={currencies || []}
         autoHighlight
         getOptionLabel={(option) => option.name}
