@@ -1,5 +1,4 @@
-import { CircularProgress, Grid, Typography } from "@mui/material"
-import { Box } from "@mui/system"
+import { CircularProgress, Grid, Typography, Box } from "@mui/material"
 import React from "react"
 import useStyles from "./styles/global-stat.style"
 import { useQuery } from "react-query"
@@ -8,21 +7,34 @@ import millify from "millify"
 
 const GlobalStat = () => {
   const classes = useStyles()
-  const { data, isLoading } = useQuery("globalStat", GetGlobalStat)
+  const { data, isLoading } = useQuery("globalStat", GetGlobalStat, {
+    refetchInterval: false,
+  })
   const globalStats = data?.data
 
   return (
     <div>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography className={classes.title} variant="h4">
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              textAlign: "center",
+              p: 3,
+            }}
+            variant="h4"
+          >
             Global Crypto Stats
           </Typography>
         </Grid>
 
         {isLoading ? (
           <Grid item xs={12}>
-            <Box className={classes.statItem}>
+            <Box
+              sx={{
+                p: 3,
+              }}
+            >
               <CircularProgress />
             </Box>
           </Grid>
