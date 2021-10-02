@@ -6,35 +6,70 @@ import {
   CircularProgress,
   Grid,
   Typography,
+  Box,
 } from "@mui/material"
 import React, { useState, useEffect } from "react"
 import { useQuery } from "react-query"
 import { GetCurrencies } from "../../services/cryptoApi"
 import millify from "millify"
 import { Link } from "react-router-dom"
+import useStyles from "./styles/top-crypto.style"
 
 const TopCrypto = ({ numTop }) => {
-  const { data, isLoading } = useQuery("Currencies", GetCurrencies)
+  const { data, isLoading } = useQuery("Currencies", GetCurrencies, {
+    refetchInterval: false,
+  })
   const [cryptos, setCryptos] = useState([])
-
+  const classes = useStyles()
   useEffect(() => {
     setCryptos(data?.data?.coins.filter((item, i) => i < numTop))
   }, [data, numTop])
 
   return (
-    <>
-      <Typography variant="h4">Top {numTop} Cryptos In The World</Typography>
-      <Grid container spacing={2}>
+    <Box
+      sx={{
+        padding: 1,
+        marginTop: 3,
+      }}
+    >
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: "bold",
+        }}
+      >
+        Top {numTop} Cryptos In The World
+      </Typography>
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          marginTop: 1,
+        }}
+      >
         {isLoading ? (
           <CircularProgress />
         ) : (
           cryptos?.map((item, i) => (
             <Grid key={i} item lg={3} md={4} xs={6}>
-              <Link to={`cryptocurrencies/${item.id}`}>
-                <Card sx={{ boxShadow: `0 8px 40px -12px ${item.color}` }}>
+              <Card
+                sx={{
+                  boxShadow: `0 8px 40px -12px ${item.color || "black"}`,
+                  border: `1px solid transparent`,
+                  "&:hover": {
+                    boxShadow: `0 18px 50px -12px ${item.color || "black"}`,
+                    border: `1px solid ${item.color}`,
+                  },
+                  borderRadius: 5,
+                }}
+              >
+                <Link
+                  to={`cryptocurrencies/${item.id}`}
+                  className={classes.linkItem}
+                >
                   <CardHeader
                     avatar={<Avatar src={item.iconUrl} />}
-                    title={`${i}. ${item.name}`}
+                    title={`${item.id}. ${item.name}`}
                   ></CardHeader>
                   <CardContent>
                     <Typography variant="body2">
@@ -47,13 +82,13 @@ const TopCrypto = ({ numTop }) => {
                       Daily Change: {item.change}%
                     </Typography>
                   </CardContent>
-                </Card>
-              </Link>
+                </Link>
+              </Card>
             </Grid>
           ))
         )}
       </Grid>
-    </>
+    </Box>
   )
 }
 
