@@ -22,6 +22,7 @@ const App = () => {
           marginRight: "auto",
           width: "70%",
           marginTop: `${menuHeight}px`,
+          marginBottom: `40px`,
         }}
       >
         <Switch>

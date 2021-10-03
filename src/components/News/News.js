@@ -14,7 +14,6 @@ import React, { useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { GetNews } from "../../services/newApi"
 import moment from "moment"
-import { Link } from "react-router-dom"
 import useStyles from "./styles/news.style"
 
 const News = ({ keyword }) => {
