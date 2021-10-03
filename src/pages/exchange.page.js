@@ -1,4 +1,5 @@
 import {
+  Avatar,
   CircularProgress,
   Collapse,
   Table,
@@ -53,14 +54,34 @@ const Row = ({ item }) => {
 
   return (
     <>
-      <TableRow onClick={() => setOpen((open) => !open)}>
-        <TableCell>{item.name}</TableCell>
+      <TableRow
+        onClick={() => setOpen((open) => !open)}
+        sx={{
+          transition: "0.4s",
+          "&:hover": {
+            cursor: "pointer",
+            backgroundColor: "#e5e5e5",
+            transition: "0.4s",
+          },
+          borderBottom: `1px solid #1976d2`,
+        }}
+      >
+        <TableCell>
+          <Avatar src={item.iconUrl} />
+          {item.name}
+        </TableCell>
         <TableCell>{millify(item.volume)}</TableCell>
         <TableCell>{millify(item.numberOfMarkets)}</TableCell>
         <TableCell>{millify(item.marketShare)} %</TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
+      <TableRow
+        sx={{
+          cursor: "pointer",
+          padding: "8px",
+          border: `1px solid #1976d2`,
+        }}
+      >
+        <TableCell sx={{ padding: "0 32px 0" }} colSpan={4}>
           <Collapse in={open}>
             {Boolean(item.description)
               ? HTMLReactParser(item.description)
