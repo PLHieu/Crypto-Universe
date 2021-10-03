@@ -51,7 +51,7 @@ const TopCrypto = ({ numTop }) => {
           <CircularProgress />
         ) : (
           cryptos?.map((item, i) => (
-            <Grid key={i} item lg={3} md={4} xs={6}>
+            <Grid key={i} item lg={3} md={6} xs={12}>
               <Card
                 sx={{
                   boxShadow: `0 8px 40px -12px ${item.color || "black"}`,
@@ -60,7 +60,7 @@ const TopCrypto = ({ numTop }) => {
                     boxShadow: `0 18px 50px -12px ${item.color || "black"}`,
                     border: `1px solid ${item.color}`,
                   },
-                  borderRadius: 5,
+                  borderRadius: 2,
                 }}
               >
                 <Link

@@ -40,7 +40,7 @@ const GlobalStat = () => {
           </Grid>
         ) : (
           <>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Box className={classes.statItem}>
                 <Typography variant="h5">Total Cryptocurrencies</Typography>
                 <Typography variant="h4">
@@ -48,7 +48,7 @@ const GlobalStat = () => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Box className={classes.statItem}>
                 <Typography variant="h5">Total Exchanges</Typography>
                 <Typography variant="h4">
@@ -56,7 +56,7 @@ const GlobalStat = () => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Box className={classes.statItem}>
                 <Typography variant="h5">Total Market Cap</Typography>
                 <Typography variant="h4">
@@ -64,7 +64,7 @@ const GlobalStat = () => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Box className={classes.statItem}>
                 <Typography variant="h5">Total 24h Volume</Typography>
                 <Typography variant="h4">

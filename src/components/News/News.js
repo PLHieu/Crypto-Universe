@@ -14,6 +14,8 @@ import React, { useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { GetNews } from "../../services/newApi"
 import moment from "moment"
+import { Link } from "react-router-dom"
+import useStyles from "./styles/news.style"
 
 const News = ({ keyword }) => {
   const { data, isLoading } = useQuery(
@@ -24,6 +26,7 @@ const News = ({ keyword }) => {
     }
   )
   const [news, setNews] = useState([])
+  const classes = useStyles()
 
   useEffect(() => {
     setNews(data?.value)
@@ -58,64 +61,68 @@ const News = ({ keyword }) => {
       </Typography>
       <Grid container spacing={5}>
         {news?.map((item, i) => (
-          <Grid item md={4} xs={6} key={i}>
-            <Card
-              sx={{
-                boxShadow: `0 8px 40px -12px black`,
-                borderRadius: 5,
-                "&:hover": {
-                  cursor: "pointer",
-                  boxShadow: `0 18px 50px -12px black`,
-                },
-              }}
-            >
-              <CardHeader
-                avatar={
-                  <Avatar
-                    src={item.provider[0]?.image?.thumbnail?.contentUrl}
-                  />
-                }
-                title={item.provider[0].name}
-                subheader={moment(item.datePublished).startOf("hour").fromNow()}
-              />
-              <CardContent
+          <Grid item lg={4} md={6} xs={12} key={i}>
+            <a href={item.url} className={classes.link}>
+              <Card
                 sx={{
-                  position: "relative",
-                  height: 250,
+                  boxShadow: `0 8px 40px -12px black`,
+                  borderRadius: 2,
+                  "&:hover": {
+                    cursor: "pointer",
+                    boxShadow: `0 18px 50px -12px black`,
+                  },
                 }}
               >
-                <Grid container spacing={2}>
-                  <Grid item xs={9}>
-                    <Typography variant="h6">{item.name}</Typography>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <CardMedia
-                      sx={{
-                        borderRadius: "10px",
-                      }}
-                      component="img"
-                      image={item?.image?.thumbnail?.contentUrl}
-                      alt="Paella dish"
+                <CardHeader
+                  avatar={
+                    <Avatar
+                      src={item.provider[0]?.image?.thumbnail?.contentUrl}
                     />
-                  </Grid>
-                </Grid>
-                <Divider />
-                <Typography variant="body2" color="text.secondary">
-                  {item?.description}
-                </Typography>
-                <Box
+                  }
+                  title={item.provider[0].name}
+                  subheader={moment(item.datePublished)
+                    .startOf("hour")
+                    .fromNow()}
+                />
+                <CardContent
                   sx={{
-                    position: "absolute",
-                    display: "block",
-                    width: "100%",
-                    height: "100px",
-                    bottom: 0,
-                    left: 0,
-                    background: `linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%)`,
+                    position: "relative",
+                    height: 250,
                   }}
-                ></Box>
-              </CardContent>
-            </Card>
+                >
+                  <Grid container spacing={2}>
+                    <Grid item xs={9}>
+                      <Typography variant="h6">{item.name}</Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <CardMedia
+                        sx={{
+                          borderRadius: "10px",
+                        }}
+                        component="img"
+                        image={item?.image?.thumbnail?.contentUrl}
+                        alt="Paella dish"
+                      />
+                    </Grid>
+                  </Grid>
+                  <Divider />
+                  <Typography variant="body2" color="text.secondary">
+                    {item?.description}
+                  </Typography>
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      display: "block",
+                      width: "100%",
+                      height: "100px",
+                      bottom: 0,
+                      left: 0,
+                      background: `linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%)`,
+                    }}
+                  ></Box>
+                </CardContent>
+              </Card>
+            </a>
           </Grid>
         ))}
       </Grid>
