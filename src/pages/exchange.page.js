@@ -16,7 +16,9 @@ import { GetCoinExchange } from "../services/cryptoApi"
 import HTMLReactParser from "html-react-parser"
 
 const Exchange = () => {
-  const { data, isLoading, isError } = useQuery("exchange", GetCoinExchange)
+  const { data, isLoading, isError } = useQuery("exchange", GetCoinExchange, {
+    refetchInterval: false,
+  })
 
   if (isLoading) {
     return <CircularProgress />
