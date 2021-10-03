@@ -18,8 +18,12 @@ import HTMLReactParser from "html-react-parser"
 import LineChart from "../LineChart/LineChart"
 
 const DetailCurrency = ({ id }) => {
-  const { data, isLoading, isError } = useQuery(["detail", id], () =>
-    GetDetailCurrency(id)
+  const { data, isLoading, isError } = useQuery(
+    ["detail", id],
+    () => GetDetailCurrency(id),
+    {
+      refetchInterval: false,
+    }
   )
   const coin = data?.data?.coin
 
@@ -80,8 +84,8 @@ const DetailCurrency = ({ id }) => {
 
   return (
     <>
-      <Box>
-        <Typography variant="h4">
+      <Box sx={{ margin: "16px 0 16px" }}>
+        <Typography fontWeight="bold" variant="h4" color="#1976d2">
           {coin.name} - {coin.symbol}'s Price
         </Typography>
         <Typography variant="subtitle1">
@@ -89,13 +93,22 @@ const DetailCurrency = ({ id }) => {
           market cap and supply.
         </Typography>
       </Box>
-      <Divider />
 
       <LineChart coinId={id}></LineChart>
 
-      <Grid container>
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          padding: "16px",
+          marginTop: 1,
+        }}
+      >
         <Grid item xs={12} md={6}>
-          <Typography variant="h5">{`${coin.name} Price Chart`}</Typography>
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: "bold", color: "#1976d2" }}
+          >{`${coin.name} Price Chart`}</Typography>
           <Typography variant="body2">
             An overview showing the statistics of Bitcoin, such as the base and
             quote currency, the rank, and trading volume.
@@ -115,7 +128,12 @@ const DetailCurrency = ({ id }) => {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Typography variant="h5">Other Stats Info</Typography>
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: "bold", color: "#1976d2" }}
+          >
+            Other Stats Info
+          </Typography>
           <Typography variant="body2">
             An overview showing the statistics of Bitcoin, such as the base and
             quote currency, the rank, and trading volume.
@@ -135,12 +153,18 @@ const DetailCurrency = ({ id }) => {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Typography variant="h5">{`What is ${coin.name} ?`}</Typography>
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: "bold", color: "#1976d2" }}
+          >{`What is ${coin.name} ?`}</Typography>
           {HTMLReactParser(coin.description)}
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Typography variant="h5">{`${coin.name} Link`}</Typography>
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: "bold", color: "#1976d2" }}
+          >{`${coin.name} Link`}</Typography>
           <TableContainer>
             <Table>
               <TableBody>

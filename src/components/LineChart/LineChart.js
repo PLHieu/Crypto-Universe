@@ -10,7 +10,7 @@ import { Line } from "react-chartjs-2"
 import { useQuery } from "react-query"
 import { GetCoinHistory } from "../../services/cryptoApi"
 
-const LineChart = ({ coinId, color }) => {
+const LineChart = ({ coinId }) => {
   const [period, setPeriod] = useState("7d")
   const { data, isLoading, isError } = useQuery(
     [coinId, period],
