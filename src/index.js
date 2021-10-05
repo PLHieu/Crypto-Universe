@@ -5,6 +5,8 @@ import { BrowserRouter as Router } from "react-router-dom"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { ReactQueryDevtools } from "react-query/devtools"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { Provider } from "react-redux"
+import store from "./store/store"
 
 const queryClient = new QueryClient()
 const theme = createTheme()
@@ -14,7 +16,9 @@ ReactDOM.render(
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <Router>
-          <App />
+          <Provider store={store}>
+            <App />
+          </Provider>
           <ReactQueryDevtools></ReactQueryDevtools>
         </Router>
       </ThemeProvider>

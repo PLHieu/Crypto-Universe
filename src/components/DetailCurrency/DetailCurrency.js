@@ -10,31 +10,27 @@ import {
 } from "@mui/material"
 import millify from "millify"
 import { Box } from "@mui/system"
-import React from "react"
-import { GetDetailCurrency } from "../../services/cryptoApi"
-import { useQuery } from "react-query"
+import React, { useEffect } from "react"
 import HTMLReactParser from "html-react-parser"
 import LineChart from "../LineChart/LineChart"
+import { useDispatch, connect } from "react-redux"
+import { getDetailCurrency } from "../../store/actions/cryptoAction"
 
-const DetailCurrency = ({ id }) => {
-  const { data, isLoading, isError } = useQuery(
-    ["detail", id],
-    () => GetDetailCurrency(id),
-    {
-      refetchInterval: false,
-    }
-  )
-  const coin = data?.data?.coin
+const DetailCurrency = ({ id, coin }) => {
+  const dispatch = useDispatch()
 
-  if (isError) {
-    return <div>Oops, There Something wrong </div>
-  }
+  useEffect(() => {
+    dispatch(getDetailCurrency(id))
+  }, [dispatch, id])
 
-  if (isLoading) {
+  // if (isError) {
+  //   return <div>Oops, There Something wrong </div>
+  // }
+
+  if (!coin) {
     return <CircularProgress />
   }
 
-  console.log(coin)
   const stats = [
     {
       title: "Price to USD",
@@ -182,4 +178,8 @@ const DetailCurrency = ({ id }) => {
   )
 }
 
-export default DetailCurrency
+const mapStateToProps = (state) => ({
+  coin: state.crypto.detailCoin,
+})
+
+export default connect(mapStateToProps)(DetailCurrency)

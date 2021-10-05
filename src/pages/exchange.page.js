@@ -10,25 +10,25 @@ import {
   TableRow,
 } from "@mui/material"
 import millify from "millify"
-import React, { useState } from "react"
-import { useQuery } from "react-query"
-import { GetCoinExchange } from "../services/cryptoApi"
+import React, { useState, useEffect } from "react"
 import HTMLReactParser from "html-react-parser"
+import { useDispatch, connect } from "react-redux"
+import { getCoinExchange } from "../store/actions/cryptoAction"
 
-const Exchange = () => {
-  const { data, isLoading, isError } = useQuery("exchange", GetCoinExchange, {
-    refetchInterval: false,
-  })
+const Exchange = ({ exchanges }) => {
+  const dispatch = useDispatch()
 
-  if (isLoading) {
+  useEffect(() => {
+    dispatch(getCoinExchange())
+  }, [])
+
+  if (!exchanges || exchanges.length === 0) {
     return <CircularProgress />
   }
 
-  if (isError) {
-    return <div>Oops, There's some error </div>
-  }
-
-  const exchanges = data.data.exchanges
+  // if (isError) {
+  //   return <div>Oops, There's some error </div>
+  // }
 
   return (
     <TableContainer>
@@ -94,5 +94,8 @@ const Row = ({ item }) => {
     </>
   )
 }
+const mapStateToProps = (state) => ({
+  exchanges: state.crypto.exchanges,
+})
 
-export default Exchange
+export default connect(mapStateToProps)(Exchange)

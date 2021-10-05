@@ -9,21 +9,38 @@ import {
   Box,
 } from "@mui/material"
 import React, { useState, useEffect } from "react"
-import { useQuery } from "react-query"
-import { GetCurrencies } from "../../services/cryptoApi"
 import millify from "millify"
 import { Link } from "react-router-dom"
 import useStyles from "./styles/top-crypto.style"
+import { useDispatch, connect } from "react-redux"
+import { getCurrencies } from "../../store/actions/cryptoAction"
 
-const TopCrypto = ({ numTop }) => {
-  const { data, isLoading } = useQuery("Currencies", GetCurrencies, {
-    refetchInterval: false,
-  })
+const TopCrypto = ({ numTop, coins }) => {
   const [cryptos, setCryptos] = useState([])
   const classes = useStyles()
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    setCryptos(data?.data?.coins.filter((item, i) => i < numTop))
-  }, [data, numTop])
+    dispatch(getCurrencies())
+  }, [dispatch])
+
+  useEffect(() => {
+    setCryptos(coins?.filter((item, i) => i < numTop))
+  }, [coins, numTop])
+
+  if (!cryptos || cryptos.length === 0) {
+    return (
+      <Grid item xs={12}>
+        <Box
+          sx={{
+            p: 3,
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      </Grid>
+    )
+  }
 
   return (
     <Box
@@ -47,49 +64,49 @@ const TopCrypto = ({ numTop }) => {
           marginTop: 1,
         }}
       >
-        {isLoading ? (
-          <CircularProgress />
-        ) : (
-          cryptos?.map((item, i) => (
-            <Grid key={i} item lg={3} md={6} xs={12}>
-              <Card
-                sx={{
-                  boxShadow: `0 8px 40px -12px ${item.color || "black"}`,
-                  border: `1px solid transparent`,
-                  "&:hover": {
-                    boxShadow: `0 18px 50px -12px ${item.color || "black"}`,
-                    border: `1px solid ${item.color}`,
-                  },
-                  borderRadius: 2,
-                }}
+        {cryptos?.map((item, i) => (
+          <Grid key={i} item lg={3} md={6} xs={12}>
+            <Card
+              sx={{
+                boxShadow: `0 8px 40px -12px ${item.color || "black"}`,
+                border: `1px solid transparent`,
+                "&:hover": {
+                  boxShadow: `0 18px 50px -12px ${item.color || "black"}`,
+                  border: `1px solid ${item.color}`,
+                },
+                borderRadius: 2,
+              }}
+            >
+              <Link
+                to={`cryptocurrencies/${item.id}`}
+                className={classes.linkItem}
               >
-                <Link
-                  to={`cryptocurrencies/${item.id}`}
-                  className={classes.linkItem}
-                >
-                  <CardHeader
-                    avatar={<Avatar src={item.iconUrl} />}
-                    title={`${item.id}. ${item.name}`}
-                  ></CardHeader>
-                  <CardContent>
-                    <Typography variant="body2">
-                      Price: {millify(item.price)}
-                    </Typography>
-                    <Typography variant="body2">
-                      Market Cap: {millify(item.marketCap)}
-                    </Typography>
-                    <Typography variant="body2">
-                      Daily Change: {item.change}%
-                    </Typography>
-                  </CardContent>
-                </Link>
-              </Card>
-            </Grid>
-          ))
-        )}
+                <CardHeader
+                  avatar={<Avatar src={item.iconUrl} />}
+                  title={`${item.id}. ${item.name}`}
+                ></CardHeader>
+                <CardContent>
+                  <Typography variant="body2">
+                    Price: {millify(item.price)}
+                  </Typography>
+                  <Typography variant="body2">
+                    Market Cap: {millify(item.marketCap)}
+                  </Typography>
+                  <Typography variant="body2">
+                    Daily Change: {item.change}%
+                  </Typography>
+                </CardContent>
+              </Link>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
     </Box>
   )
 }
 
-export default TopCrypto
+const mapStateToProps = (state) => ({
+  coins: state.crypto.coins,
+})
+
+export default connect(mapStateToProps)(TopCrypto)

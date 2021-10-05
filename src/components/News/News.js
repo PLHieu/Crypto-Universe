@@ -10,28 +10,21 @@ import {
   Typography,
   Box,
 } from "@mui/material"
-import React, { useEffect, useState } from "react"
-import { useQuery } from "react-query"
-import { GetNews } from "../../services/newApi"
+import React, { useEffect } from "react"
 import moment from "moment"
 import useStyles from "./styles/news.style"
+import { useDispatch, connect } from "react-redux"
+import { getNews } from "../../store/actions/newsAction"
 
-const News = ({ keyword }) => {
-  const { data, isLoading } = useQuery(
-    ["News", keyword],
-    () => GetNews(keyword),
-    {
-      refetchInterval: false,
-    }
-  )
-  const [news, setNews] = useState([])
+const News = ({ keyword, news }) => {
   const classes = useStyles()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    setNews(data?.value)
-  }, [data])
+    dispatch(getNews(keyword))
+  }, [keyword, dispatch])
 
-  if (isLoading) {
+  if (!news || news.length === 0) {
     return (
       <Box
         sx={{
@@ -129,4 +122,8 @@ const News = ({ keyword }) => {
   )
 }
 
-export default News
+const mapStateToProps = (state) => ({
+  news: state.news.news,
+})
+
+export default connect(mapStateToProps)(News)

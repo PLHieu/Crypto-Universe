@@ -5,37 +5,33 @@ import {
   MenuItem,
   Select,
 } from "@mui/material"
-import React, { useState } from "react"
+import React, { useEffect } from "react"
 import { Line } from "react-chartjs-2"
-import { useQuery } from "react-query"
-import { GetCoinHistory } from "../../services/cryptoApi"
+import { useDispatch, connect } from "react-redux"
+import { getCoinHistory } from "../../store/actions/cryptoAction"
 
-const LineChart = ({ coinId }) => {
-  const [period, setPeriod] = useState("7d")
-  const { data, isLoading, isError } = useQuery(
-    [coinId, period],
-    () => GetCoinHistory(coinId, period),
-    {
-      refetchInterval: false,
-    }
-  )
+const LineChart = ({ coinId, history }) => {
+  const period = "7d"
+  const dispatch = useDispatch()
   const coinPrices = []
   const coinTimestamp = []
   const time = ["24h", "7d", "30d", "1y", "5y"]
 
-  if (isError) {
-    return <div>Oops, There some errors</div>
-  }
+  // if (isError) {
+  //   return <div>Oops, There some errors</div>
+  // }
 
-  if (isLoading) {
+  useEffect(() => {
+    dispatch(getCoinHistory(coinId, period))
+  }, [dispatch, coinId, period])
+
+  if (!history || history.length === 0) {
     return <CircularProgress />
   }
 
-  for (let i = 0; i < data.data.history.length; i += 1) {
-    coinPrices.push(data?.data?.history[i].price)
-    coinTimestamp.push(
-      new Date(data?.data?.history[i].timestamp).toLocaleDateString()
-    )
+  for (let i = 0; i < history.length; i += 1) {
+    coinPrices.push(history[i].price)
+    coinTimestamp.push(new Date(history[i].timestamp).toLocaleDateString())
   }
 
   const chartData = {
@@ -72,7 +68,7 @@ const LineChart = ({ coinId }) => {
           id="select_period"
           value={period}
           label="Period"
-          onChange={(e) => setPeriod(e.target.value)}
+          onChange={(e) => dispatch(getCoinHistory(coinId, e.target.value))}
         >
           {time.map((item) => (
             <MenuItem key={item} value={item}>
@@ -87,4 +83,8 @@ const LineChart = ({ coinId }) => {
   )
 }
 
-export default LineChart
+const mapStateToProps = (state) => ({
+  history: state.crypto.coinHistory,
+})
+
+export default connect(mapStateToProps)(LineChart)
